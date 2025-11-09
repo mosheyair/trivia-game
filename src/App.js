@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import CategoryList from "./components/CategoryList";
+import CategoryList from "./components/CategoryList"; 
 import QuestionCard from "./components/QuestionCard";
 import AddQuestionForm from "./components/AddQuestionForm";
 
