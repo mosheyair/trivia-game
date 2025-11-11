@@ -131,7 +131,7 @@ flowchart TD
 * 🔁 App מקבלת חזרה את הקטגוריה שנבחרה<br>
      state שומרת אותה ב <br>
      שולפת מהשרת את השאלות המתאימות<br>
-     QuestionCard  מציגה את המסך הבא
+     QuestionCard  מציגה את המסך הבא<br>
 
 * ### Scope, props, import/export 
 * #### scope: <br>
