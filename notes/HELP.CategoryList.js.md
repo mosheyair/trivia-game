@@ -5,6 +5,13 @@
   - [🧭 תוכן העניינים](#-תוכן-העניינים)
   - [הקוד הבסיסי](#הקוד-הבסיסי)
   - [פונקציה לשליחת הטופס](#פונקציה-לשליחת-הטופס)
+  - [1. הצגת רשימת קטגוריות ](#1-הצגת-רשימת-קטגוריות-)
+  - [2. כפתור שלח משוב ](#2-כפתור-שלח-משוב-)
+  - [3. הצגת טופס המשוב   ](#3-הצגת-טופס-המשוב---)
+  - [3.1 פרטים אישיים  ](#31-פרטים-אישיים--)
+  - [3.2 כתבו תגובה      ](#32-כתבו-תגובה------)
+  - [4. submitted לאחר שליחה מצב ](#4-submitted-לאחר-שליחה-מצב-)
+  - [סיכום ותרשימים  ](#סיכום-ותרשימים--)
 
 
 ---
@@ -331,8 +338,259 @@ true or false  הפונקציה מחזירה <br>
 };  <br>
 
 </div>
+setError("") - מוחקים כל שגיאה קודמת   <br>
+setStep(2)  -  ל2 state משנים את
+</div>
+
+<div style="color: blue;">
+1. בודקים אם יש שדות ריקים - אם כן מציגים שגיאה  <br>
+2. בודקים אם תבנית האימייל תקינה  - אם לא מציגים שגיאה  <br>
+3. אם הכל תקין - מנקים שגיאה ומתקדמים לשלב הבא  <br>
+</div> <br><br>
+
+
+<div style="color: purple;">
+<div dir="ltr">
+const handleSubmit = () => {  <br>
+    if (!formData.message) {  <br>
+      setError("אנא מלא את שדה המשוב לפני השליחה."); <br>
+      return; <br>
+    } <br>
+
+    setError("");
+    console.log("📝 Feedback submitted:", formData);
+    setSubmitted(true);
+    alert("תודה! המשוב שלך התקבל.");
+
+    // איפוס שדות
+    setFormData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      message: "",
+    });
+  };
+</div>
+** handleSubmit - היא הפונקציה שמופעלת כאשר המשתמש לוחץ על כפתור שלח משוב המטרה שלה  <br>
+
+לבדוק אם המשתמש כתב הודעה.  <br>
+
+להציג הודעת תודה.  <br>
+
+לשמור או להציג את הנתונים.  <br>
+
+לאפס את הטופס כדי שאפשר יהיה לשלוח שוב.  <br>
+<br>
+<br>
+אם המשתמש מנסה לשלוח טופס ריק זו הפונקציה שמחזירה לו שגיאה <br>
+if (!formData.message) {
+  setError("אנא מלא את שדה המשוב לפני השליחה.");
+  return;
+}
+<br>
+<br>
+setError("") - אם הגענו לכאן סימן שהכל תקין ואז אנחנו מוחקים שגיאות קודמות  <br>
+console.log("📝 Feedback submitted:", formData); - רישום התוצאה לקונסול  <br>
+setSubmitted(true); - מעדכן את הסטטוס ואז ריאקט תדע להציג למשתמש הודעה מתאימה  <br><br>
+לאחר הצגת ההודעה מגיע שלב איפוס הטופס
+setFormData({
+  firstName: "",
+  lastName: "",
+  email: "",
+  message: "",
+});
 
 </div>
+
+<br><br>
+<div style="color: purple;">   
+<div dir="ltr">  
+
+ return (           <br>
+    <div style={{ textAlign: "center" }}>     <br>
+      <ul style={{ listStyleType: "none", padding: 0 }}>    <br>
+        {categories.map((cat) => (      <br>
+          <li>               <br>
+            key={cat.id}            <br>
+            onClick={() => onSelect(cat)}             <br>
+            style={{                            <br>
+              cursor: "pointer",            <br>
+              fontSize: "20px",             <br>
+              margin: "10px 0",                   <br>
+              color: "#333",             <br>
+              transition: "color 0.2s",       <br>
+            }}                                 <br>
+            onMouseEnter={(e) => (e.target.style.color = "#007bff")}      <br>
+            onMouseLeave={(e) => (e.target.style.color = "#333")}        <br>
+          >           
+            {cat.name}
+          </li>
+        ))}
+      </ul>
+
+      {/* 🔘 כפתור פתיחת המשוב */}
+      {!showFeedbackForm && !submitted && (
+        <button onClick={() => setShowFeedbackForm(true)}>📩 שלח משוב</button>
+      )}
+
+      {/* 🧾 טופס משוב */}
+      {showFeedbackForm && !submitted && (
+        <div style={{ marginTop: "20px", maxWidth: "400px", margin: "auto" }}>
+          {step === 1 && (
+            <>
+              <h3>פרטים אישיים</h3>
+              {error && <p style={{ color: "red" }}>{error}</p>}
+              <input
+                name="firstName"
+                placeholder="שם פרטי"
+                value={formData.firstName}
+                onChange={handleChange}
+                style={{ display: "block", width: "100%", margin: "10px 0" }}
+              />
+              <input
+                name="lastName"
+                placeholder="שם משפחה"
+                value={formData.lastName}
+                onChange={handleChange}
+                style={{ display: "block", width: "100%", margin: "10px 0" }}
+              />
+              <input
+                name="email"
+                type="email"
+                placeholder="אימייל"
+                value={formData.email}
+                onChange={handleChange}
+                style={{ display: "block", width: "100%", margin: "10px 0" }}
+              />
+              <button onClick={handleContinue}>המשך</button>
+            </>
+          )}
+
+          {step === 2 && (
+            <>
+              <h3>כתבו לנו</h3>
+              {error && <p style={{ color: "red" }}>{error}</p>}
+              <textarea
+                name="message"
+                placeholder="הערות, שאלות, באגים..."
+                value={formData.message}
+                onChange={handleChange}
+                style={{ width: "100%", height: "100px", margin: "10px 0" }}
+              />
+              <button onClick={handleSubmit}>שלח משוב</button>
+            </>
+          )}
+        </div>
+      )}
+
+      {/* ✔️ לאחר שליחה */}
+      {submitted && (
+        <div style={{ marginTop: "20px", color: "green" }}>
+          ✅ תודה על המשוב! נשתדל לשפר בהתאם.
+        </div>
+      )}
+    </div>
+  );
+}
+<br>
+** state  ריאקט מסתכלת על כל ה
+* showFeedbackForm
+* submitted
+* step
+* error
+* formData
+  <br>
+** ועל פי הערכים מחליטה מה להציג על המסך קוראים לזה  <br>
+conditional rendering (הצגה מותנית)  
+<br>  
+<div dir="ltr">  
+<div style="color: blue;">
+<h3>
+## 1. הצגת רשימת קטגוריות </h3>
+מציג קטגוריות ואם לוחצים מפעיל את הקטגוריה
+<ul>
+  {categories.map((cat) => (
+    <li onClick={() => onSelect(cat)}>{cat.name}</li>
+  ))}
+</ul>
+</div>
+<br>
+<div style="color: purple;">
+<h3>
+## 2. כפתור שלח משוב </h3>
+<br>
+מוצג רק במקרה ש   <br>
+* showFeedbackForm === false AND    <br>
+* submitted === false   <br>
+{!showFeedbackForm && !submitted && (    <br>
+  <button onClick={() => setShowFeedbackForm(true)}>📩 שלח משוב</button>   <br>
+)}
+<br>
+</div>
+<div style="color: blue;">
+<h3>
+## 3. הצגת טופס המשוב   </h3>
+<br>
+הטופס מוצג רק כאשר 
+* showFeedbackForm === true AND  <br>
+* submitted === false
+<br>
+<h3>
+## 3.1 פרטים אישיים  </h3>
+step === 1 מוצג רק כאשר    <br>
+{step === 1 && (    <br>
+  <div dir="ltr">
+    פרטים אישיים    <br>
+    {error && <p style={{ color: "red" }}>{error}</p>}   <br>
+    ...    <br>
+    <button onClick={handleContinue}>המשך</button>   <br>
+  </>
+)}    <br>
+* מקלידים שם פרטי, משפחה, אימייל        <br>
+* formData ריאקט שולטת בכל השדות דרך    <br>
+* handleContinue לחיצה על המשך מפעילה   <br>
+*** step ריאקט מציגה את השלב בהתאם לערך של <br>
+## 3.2 כתבו תגובה      <br>
+** step === 2 מוצג רק כאשר     <br>
+{step === 2 && (      <br>
+<div dir="ltr"> 
+כתבו לנו    <br>
+{error &&  style={{ color: "red" }}>{error}}      <br>                                       
+<button onClick={handleSubmit}>שלח משוב</button>       <br>
+  )}
+  </div>
+<br>  
+* handleSubmit לאחר שהמשתמש כותב את ההודעה, לחיצה על הכפתור תפעיל את הפונקציה 
+<br>
+</div>
+<div style="color: purple;">
+<h3>
+## 4. submitted לאחר שליחה מצב </h3>
+* עושה handleSubmit ברגע ש <br>
+  setSubmitted(true)    <br>
+* כל מה שהיה למעלה נעלם וריאקט מציגה מסך תודה   <br>
+  {submitted && (     <br>
+  <div style={{ color: "green" }}>    <br>
+    ✅ תודה על המשוב! נשתדל לשפר בהתאם.    <br>
+  </div>
+)}      <br>
+** כל הממשק משתנה אוטומטית state רק על פי שינוי ב
+<br>
+<div style="color: blue;">
+<h2>
+## סיכום ותרשימים  </h2>
+ state רייאקט מציגה מצב בהתאם ל   <br>
+* submitted === false → טופס    <br>
+* submitted === true  → הודעת תודה    <br>
+* step === 1          → שדות אישיים    <br>
+* step === 2          → שדה הודעה      <br>
+* showFeedbackForm === false → כפתור פתיחת טופס  <br>
+* showFeedbackForm === true → הטופס עצמו    <br>
+  ** state הכל לפי ה
+
+
+</div>
+
 
 
 
