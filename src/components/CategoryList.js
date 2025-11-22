@@ -1,5 +1,7 @@
 // src/components/CategoryList.js
 import React, { useState } from "react";
+import './CategoryList.css';
+
 
 function CategoryList({ categories, onSelect }) {
   const [showFeedbackForm, setShowFeedbackForm] = useState(false);
@@ -69,9 +71,12 @@ function CategoryList({ categories, onSelect }) {
             onClick={() => onSelect(cat)}
             style={{
               cursor: "pointer",
-              fontSize: "20px",
-              margin: "10px 0",
-              color: "#333",
+              fontSize: "25px",
+              fontWeight: "bold",
+              fontFamily: "Arial, sans-serif",
+              marginLeft: "-200px",
+              marginBottom: "15px",
+              color: "#e01e1eff",
               transition: "color 0.2s",
             }}
             onMouseEnter={(e) => (e.target.style.color = "#007bff")}
@@ -84,7 +89,9 @@ function CategoryList({ categories, onSelect }) {
 
       {/* 🔘 כפתור פתיחת המשוב */}
       {!showFeedbackForm && !submitted && (
-        <button onClick={() => setShowFeedbackForm(true)}>📩 שלח משוב</button>
+        <button className="feedback-button" onClick={() => setShowFeedbackForm(true)}>
+  📩 שלח משוב
+</button>
       )}
 
       {/* 🧾 טופס משוב */}
@@ -99,14 +106,14 @@ function CategoryList({ categories, onSelect }) {
                 placeholder="שם פרטי"
                 value={formData.firstName}
                 onChange={handleChange}
-                style={{ display: "block", width: "100%", margin: "10px 0" }}
+                style={{ display: "block", width: "100%", margin: "10px 0", fontSize: "20px" }}
               />
               <input
                 name="lastName"
                 placeholder="שם משפחה"
                 value={formData.lastName}
                 onChange={handleChange}
-                style={{ display: "block", width: "100%", margin: "10px 0" }}
+                style={{ display: "block", width: "100%", margin: "10px 0", fontSize: "20px"  }}
               />
               <input
                 name="email"
@@ -114,7 +121,7 @@ function CategoryList({ categories, onSelect }) {
                 placeholder="אימייל"
                 value={formData.email}
                 onChange={handleChange}
-                style={{ display: "block", width: "100%", margin: "10px 0" }}
+                style={{ display: "block", width: "100%", margin: "10px 0", fontSize: "20px"  }}
               />
               <button onClick={handleContinue}>המשך</button>
             </>

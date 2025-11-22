@@ -1,3 +1,5 @@
+/* ===== הגדרות CRA קיימות ===== */
+
 .App {
   text-align: center;
 }
@@ -14,7 +16,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #000000;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -35,4 +37,96 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+
+/* ===========================================
+   עיצוב Cards — מראה מודרני, נקי ומקצועי
+   =========================================== */
+
+/* ===== כרטיסים — כל קוביה עצמאית ===== */
+
+/* כל כרטיס עומד לבד */
+.card {
+  width: 400px;
+  margin: 0 auto; /* מרכז את הכרטיס במסך */
+  margin-bottom: 25px;
+  padding: 1px 10px 10px 10px;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(118, 53, 53, 0.1);
+  transition: 0.2s ease;
+}
+
+/* אפקט ריחוף */
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+/* כל כרטיס וההתאמה שלו */
+.title-card {
+  text-align: center;
+  font-size: 27px;
+  font-family:monospace;
+  font-weight: bold;
+  color: #0b0a0372;
+  text-shadow: 5px 5px 5px #20131168;
+  margin-top: 10px; /* מושך למעלה */
+
+
+}
+
+.subtitle-card {
+  font-family:monospace;
+  font-weight: bold;
+  color: #7d4207f1;
+  font-size: 22px;
+   margin-left: 10px;
+  text-align: center;
+}
+
+.categories-card {
+ 
+   margin-left: 10px;
+    font-size: 15px;
+  text-align: left;
+}
+
+
+.buttons-card {
+  margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+
+/* ===========================================
+   כפתור אדמין — כחול/סגול 
+   =========================================== */
+
+.big-button {
+  background: linear-gradient(135deg, #6c63ff, #4c46d8);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.big-button:hover {
+  background: linear-gradient(135deg, #4c46d8, #332fb0);
+  transform: scale(1.05);
+}
+
+.big-button:active {
+  transform: scale(0.97);
 }

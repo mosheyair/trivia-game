@@ -1,0 +1,20 @@
+.feedback-button {
+  background: linear-gradient(135deg, #ff6fb1, #d9468f);
+  color: rgb(15, 14, 14);
+  border: none;
+  padding: 12px 24px;
+  margin-top: 15px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.feedback-button:hover {
+  background: linear-gradient(135deg, #d9468f, #b53275);
+  transform: scale(1.05);
+}

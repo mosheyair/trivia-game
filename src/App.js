@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import CategoryList from "./components/CategoryList"; 
+import CategoryList from "./components/CategoryList";
 import QuestionCard from "./components/QuestionCard";
 import AddQuestionForm from "./components/AddQuestionForm";
+import "./App.css";
 
 function App() {
   const [categories, setCategories] = useState([]);
@@ -28,16 +29,26 @@ function App() {
       .catch((err) => console.error("Error fetching questions:", err));
   };
 
-  const handleAnswer = () => {
-    if (currentIndex + 1 < questions.length) {
-      setCurrentIndex(currentIndex + 1);
-    } else {
-      alert("🎉 You've finished the category!");
-      setSelectedCategory(null);
-      setQuestions([]);
-      setCurrentIndex(0);
-    }
-  };
+ const handleAnswer = (action) => {
+  // אם המשתמש בחר לחזור למסך הראשי
+  if (action === "backHome") {
+    setSelectedCategory(null);
+    setQuestions([]);
+    setCurrentIndex(0);
+    return;
+  }
+
+  // המשך רגיל
+  if (currentIndex + 1 < questions.length) {
+    setCurrentIndex(currentIndex + 1);
+  } else {
+    alert("🎉 You've finished the category!");
+    setSelectedCategory(null);
+    setQuestions([]);
+    setCurrentIndex(0);
+  }
+};
+
 
   const handleAdminLogin = (password) => {
     if (password === "moka1234") {
@@ -48,32 +59,52 @@ function App() {
     }
   };
 
-  // 🔹 ראש עמוד - כפתור ניהול וסיסמה
+  // 🔹 מסך פתיחה (עיצוב חדש)
   if (!selectedCategory && !isAdmin) {
     return (
-      <div style={{ textAlign: "center", marginTop: "50px" }}>
-        <h1>Trivia Game 🎯</h1>
-        <h2>Available Categories</h2>
-        <CategoryList categories={categories} onSelect={handleCategorySelect} />
-        <button onClick={() => setShowLogin(!showLogin)}>🔐 Admin</button>
+      <>
+        <div className="card title-card">
+          <h1>Trivia - Game</h1>
+        </div>
 
-        {showLogin && (
-          <div style={{ marginTop: "10px" }}>
-            <input
-              type="password"
-              placeholder="Enter admin code"
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleAdminLogin(e.target.value);
-                }
-              }}
-            />
-          </div>
-        )}
-      </div>
+        <div className="card subtitle-card">
+          <h2>Available Categories:</h2>
+        </div>
+
+        <div className="card categories-card">
+          <CategoryList
+            categories={categories}
+            onSelect={handleCategorySelect}
+          />
+        </div>
+
+        <div className="card buttons-card">
+          <button
+            className="big-button"
+            onClick={() => setShowLogin(!showLogin)}
+          >
+            🔐 Admin
+          </button>
+
+          {showLogin && (
+            <div style={{ marginTop: "-130px" }}>
+              <input
+                type="password"
+                placeholder="Enter admin code"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleAdminLogin(e.target.value);
+                  }
+                }}
+              />
+            </div>
+          )}
+        </div>
+      </>
     );
   }
 
+  // 🔹 מסך ניהול (כמו בקובץ הישן)
   if (isAdmin && !selectedCategory) {
     return (
       <div style={{ textAlign: "center", marginTop: "50px" }}>
@@ -84,10 +115,13 @@ function App() {
     );
   }
 
+  // 🔹 מסך שאלות
   const question = questions[currentIndex];
+
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>{selectedCategory.name}</h1>
+      <h1>{selectedCategory?.name}</h1>
+
       {question ? (
         <QuestionCard question={question} onAnswer={handleAnswer} />
       ) : (

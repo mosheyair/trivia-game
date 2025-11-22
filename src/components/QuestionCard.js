@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./QuestionCard.css";
 
 function QuestionCard({ question, onAnswer }) {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -21,67 +22,88 @@ function QuestionCard({ question, onAnswer }) {
   };
 
   return (
-    <div style={{ textAlign: "center", direction: "rtl" }}>
-      <h2>{question.question}</h2>
+    <div className="question-card">
+      <h2 className="question-title">{question.question}</h2>
 
       {!hasAnswered ? (
         <>
-          <div>
-            <label>
+          <div className="answers-container">
+            <label className="answer-option">
               <input
                 type="radio"
                 name="answer"
                 value="כן"
                 onChange={() => setSelectedAnswer("כן")}
               />
-              כן
+              <span>כן</span>
             </label>
-            <br />
-            <label>
+
+            <label className="answer-option">
               <input
                 type="radio"
                 name="answer"
                 value="לא"
                 onChange={() => setSelectedAnswer("לא")}
               />
-              לא
+              <span>לא</span>
             </label>
-            <br />
-            <label>
+
+            <label className="answer-option">
               <input
                 type="radio"
                 name="answer"
                 value="לא מדויק"
                 onChange={() => setSelectedAnswer("לא מדויק")}
               />
-              לא מדויק
+              <span>לא מדויק</span>
             </label>
           </div>
 
-          <button onClick={handleSubmit} disabled={selectedAnswer === null}>
+          <button
+            className="submit-button"
+            onClick={handleSubmit}
+            disabled={selectedAnswer === null}
+          >
             שלח תשובה
           </button>
         </>
       ) : (
         <>
-          <p>
+          <p className="your-answer">
             <strong>התשובה שלך:</strong> {selectedAnswer}
           </p>
-          <p style={{ color: isCorrect ? "green" : "red" }}>
+
+          <p className={isCorrect ? "correct" : "wrong"}>
             {isCorrect ? "✔ תשובה נכונה!" : "✖ תשובה שגויה"}
           </p>
+
           <p>
-            <strong>תשובה נכונה:</strong> {question.answer}
+            <strong>התשובה הנכונה:</strong> {question.answer}
           </p>
-          <p>
-            <em>{question.explanation}</em>
-          </p>
-          <button onClick={handleNext}>שאלה הבאה</button>
+
+          <p className="explanation">{question.explanation}</p>
+
+          <button className="next-button" onClick={handleNext}>
+            שאלה הבאה ➜
+          </button>
+          <button 
+  className="home-button"
+  onClick={() => {
+    // מאפס הכל וחוזר למסך הראשי
+    setSelectedAnswer(null);
+    setHasAnswered(false);
+    setIsCorrect(false);
+    onAnswer("backHome");
+  }}
+>
+  ↩ חזרה למסך הראשי
+</button>
+
         </>
       )}
     </div>
   );
+  
 }
 
 export default QuestionCard;
-
